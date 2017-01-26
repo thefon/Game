@@ -20,6 +20,8 @@ namespace RPG
         [SerializeField]
         int maxHealthPoints = 100;
         [SerializeField]
+        AudioClip[] deathSounds;
+        [SerializeField]
         Material ghostMaterial;
 
         int currentHealthPoints;
@@ -63,7 +65,7 @@ namespace RPG
             if (currentHealthPoints == 0)
             {
                 isAlive = false;
-                // AudioSource.PlayClipAtPoint(PickRandomAudioClip(deathSounds), transform.position); TODO add enemy death sounds
+                AudioSource.PlayClipAtPoint(PickRandomAudioClip(deathSounds), transform.position); // TODO add enemy death sounds
                 enemySkin.material = ghostMaterial;
                 CancelInvoke();
                 gameObject.SetActive(false);
@@ -89,6 +91,11 @@ namespace RPG
         {
             player.TakeDamage(damagePointsPerAttack);
             enemySkin.material = attackingMaterial;
+        }
+
+        AudioClip PickRandomAudioClip(AudioClip[] audioClips)
+        {
+            return audioClips[Random.Range(0, audioClips.Length)];
         }
 
         void OnDrawGizmosSelected()
